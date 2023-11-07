@@ -1,4 +1,4 @@
-import {Controller, Get, Param} from '@nestjs/common';
+import {Controller, Get, NotFoundException, Param} from '@nestjs/common';
 import { PostsService } from './posts.service';
 
 // nest g resource -> posts
@@ -63,7 +63,12 @@ export class PostsController {
   // @Get('/:id')
   @Get(':id')
   getPost(@Param('id') id: string): PostModel {
-    return posts.find((post) => post.id === +id); // post.id가 숫자라서 id를 +id로 해서 숫자로 바꿔줌
+    const post =  posts.find((post) => post.id === +id); // post.id가 숫자라서 id를 +id로 해서 숫자로 바꿔줌
+    if (!post) {
+      throw new NotFoundException();
+    }
+
+    return post;
   }
 
   
