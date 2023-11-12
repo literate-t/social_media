@@ -107,7 +107,7 @@ export class PostsController {
       @Body('title') title?: string,
       @Body('content') content?: string,
   ) {
-    const post = posts.find(post => post.id === +id);
+    const post = this.findPost(id);
 
     if (!post) {
       throw new NotFoundException();
@@ -134,18 +134,17 @@ export class PostsController {
   deletePost(
       @Param('id') id: string
   ) {
-    const post = posts.find(post => post.id === +id);
+    const post = this.findPost(id);
     if (!post) {
       throw new NotFoundException();
     }
 
-    const newPosts = posts.filter(post => post.id !== +id);
-    if (newPosts.length === posts.length) {
-      throw new BadRequestException();
-    }
-
-    posts = newPosts;
+    posts = posts.filter(post => post.id !== +id);
 
     return id;
+  }
+
+  findPost(id: string): PostModel {
+    return posts.find(post => post.id === +id);
   }
 }
