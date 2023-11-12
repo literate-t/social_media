@@ -1,4 +1,4 @@
-import {Body, Controller, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
+import {BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 import { PostsService } from './posts.service';
 
 // nest g resource -> posts
@@ -130,4 +130,22 @@ export class PostsController {
   
   // 5) DELETE /posts/:id
   //    id에 해당하는 POST를 삭제한다
+  @Delete(':id')
+  deletePost(
+      @Param('id') id: string
+  ) {
+    const post = posts.find(post => post.id === +id);
+    if (!post) {
+      throw new NotFoundException();
+    }
+
+    const newPosts = posts.filter(post => post.id !== +id);
+    if (newPosts.length === posts.length) {
+      throw new BadRequestException();
+    }
+
+    posts = newPosts;
+
+    return id;
+  }
 }
