@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PostsModule } from './posts/posts.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
+import {PostsModel} from "./posts/entities/posts.entity";
 
 @Module({
   imports: [
@@ -15,7 +16,9 @@ import {TypeOrmModule} from "@nestjs/typeorm";
         username: 'postgres',
         password: 'postgres', //TODO 나중에 환경변수로 처리할 것
         database: 'postgres',
-        entities: [],
+        entities: [
+            PostsModel
+        ],
         synchronize: true, // nestjs에서 작성하는 typeorm 코드와 데이터베이스를 싱크를 맞출건지(개발에서만 true)
       })
   ],
