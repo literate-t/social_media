@@ -7,7 +7,7 @@ import {PostsModel} from "./entities/posts.entity";
 @Module({
   imports: [
       TypeOrmModule.forFeature([
-          PostsModel
+          PostsModel // typeorm이 repository를 만들어준다
       ]),
   ],
   controllers: [PostsController],
